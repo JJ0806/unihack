@@ -44,7 +44,7 @@ class User(AbstractUser):
 
 class Assessment(models.Model):
     STATUS_CHOICES = [
-        ('pending', 'Pending'),
+        ('upcoming', 'Upcoming'),
         ('in_progress', 'In Progress'),
         ('completed', 'Completed'),
     ]

@@ -30,15 +30,15 @@
 
     <!-- Task Columns -->
     <div class="row">
-        <!-- Pending Tasks -->
+        <!-- Upcoming Tasks -->
         <div class="col-md-4 mb-4">
             <div class="card bg-pending">
                 <div class="card-header bg-light">
-                    <h5 class="mb-0">Pending</h5>
+                    <h5 class="mb-0">Upcoming</h5>
                 </div>
                 <div class="card-body">
                     {% for task in tasks %}
-                        {% if task.status == 'pending' %}
+                        {% if task.status == 'upcoming' %}
                           <p>{{ task.title }}</p>
                         {% endif %}
                     {% endfor %}

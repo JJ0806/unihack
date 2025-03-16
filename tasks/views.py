@@ -19,7 +19,7 @@ def dashboard(request):
 
     current_user = request.user
     tasks = Assessment.objects.filter(assigned_to=current_user)
-    incomplete_tasks = tasks.filter(status__in=['pending', 'in_progress'])
+    incomplete_tasks = tasks.filter(status__in=['upcoming', 'in_progress'])
 
     if incomplete_tasks.exists():
         messages.add_message(request, messages.WARNING, "You have incomplete tasks!")
