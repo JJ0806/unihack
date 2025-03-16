@@ -19,6 +19,11 @@ def dashboard(request):
 
     current_user = request.user
     tasks = Task.objects.filter(assigned_to=current_user)
+    incomplete_tasks = tasks.filter(status__in=['pending', 'in_progress'])
+
+    if incomplete_tasks.exists():
+        messages.add_message(request, messages.WARNING, "You have incomplete tasks!")
+
     return render(request, 'dashboard.html', {'user': current_user, 'tasks': tasks})
 
 
