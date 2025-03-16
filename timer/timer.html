@@ -15,13 +15,18 @@
             <div class = "semicircle"></div>
             <div class = "semicircle"></div>
             <div class="outermost-circle"></div>
-        </div>
+            <div class = "timer-container center">
+                <div class = "timer center"></div>
+            </div>
+        </div>           
     </div>
-
-    <div class = "timer-container center">
-        <div class = "timer center"></div>
-    </div>
+    <div class="time-input-container">
+        <input type="number" id="hours" placeholder="HH" min="0">
+        <input type="number" id="minutes" placeholder="MM" min="0" max="59">
+        <input type="number" id="seconds" placeholder="SS" min="0" max="59">
+        <button id="start">Start Timer</button>
+    </div>  
     
-    <script src="script.js"></script>
+    <script src="timer.js"></script>
 </body>
 </html>

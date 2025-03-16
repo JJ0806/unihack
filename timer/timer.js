@@ -5,7 +5,7 @@ const timer = document.querySelector('.timer')
 
 const hr = 0;
 const min = 0;
-const sec = 10;
+const sec = 30;
 
 const hours = hr * 1000 * 60 * 60;
 const minutes = min * 1000 * 60;
@@ -19,6 +19,9 @@ const timerLoop = setInterval(countdownTimer);
 countdownTimer();
 
 function countdownTimer() {
+
+    console.log("Timer updating:", timer.innerHTML);
+
     const currentTime = Date.now();
     const remainingTime = futureTime - currentTime;
     const angle = (remainingTime/setTime) * 360;
@@ -33,9 +36,10 @@ function countdownTimer() {
         semicircles[1].style.transform = `rotate(${angle}deg)`;
     }
     
-    const hrs = Math.floor((remainingTime/(1000*60*60))%24).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping: false});
-    const mins = Math.floor((remainingTime/(1000*60))%60).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping: false});
-    const secs = Math.floor((remainingTime/(1000))%60).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping: false});
+    const hrs = String(Math.floor((remainingTime/(1000*60*60))%24)).padStart(2, '0');
+    const mins = String(Math.floor((remainingTime/(1000*60))%60)).padStart(2, '0');
+    const secs = String(Math.floor((remainingTime/(1000))%60)).padStart(2, '0');
+    
 
     timer.innerHTML = `
     <div>${hrs}</div>
@@ -65,4 +69,6 @@ function countdownTimer() {
 
         timer.style.color = "grey";
     }
+
+    
 }
