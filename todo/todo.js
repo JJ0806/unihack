@@ -19,15 +19,7 @@ const updateTasksList = () => {
         const listItem = dpcument.createElement('li')
 
         listItem.innerHTML = ''
-            <div class = "taskItem">
-                <><div class="task">
-                    <input type="checkbox" class="checkbox" />
-                    <p>Finish this project</p>
-                </div><div class="icons">
-                        <img src="./img/edit.png" />
-                        <img src="./img/bin.png" />
-                    </div></>
-            </div>
+            
 
             taskList.append(listItem);
     });
