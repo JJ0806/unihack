@@ -40,3 +40,28 @@ class User(AbstractUser):
         """Return a URL to a miniature version of the user's gravatar."""
         
         return self.gravatar(size=60)
+    
+
+class Task(models.Model):
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('in_progress', 'In Progress'),
+        ('completed', 'Completed'),
+    ]
+
+    title = models.CharField(max_length=100, blank=False)
+    description = models.CharField(max_length=1000, blank=True)
+    due_date = models.DateField(blank=False, null=True)
+    created = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    assigned_to = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name='assigned_to')
+
+    class Meta:
+        """Model options."""
+
+        ordering = ['-created']
+
+    def __str__(self):
+        """Return a string representation of the task."""
+
+        return self.title

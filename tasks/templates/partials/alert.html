@@ -1,0 +1,43 @@
+<!-- This was taken and modified from the following video: https://www.youtube.com/watch?v=AF6vGYIyV8M -->
+
+
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta name="viewport" content="width=device-width, intial-scale=1.0">
+        <title>Task Alert </title>
+        <link rel="stylesheet" href="alert.css">
+    </head>
+
+    <body>
+        <div class="container">
+            <button type="CLICK" class="btn" onclick="openPopup()">CLICK</button>
+            <div class="popup" id="popup">
+                <img src="alert_exclaim.png"> 
+                <h2>Alert!</h2>
+                <p>You have not completed your tasks!</p>
+                <p>DISHONOUR ON YOU</p>
+                <button type="button" onclick="closePopup()">Have mercy</button>
+            </div>
+        </div>
+
+        <script>
+            let popup = document.getElementById("popup");
+
+            function openPopup(){
+                popup.classList.add("open-popup");
+
+            }
+
+            function closePopup(){
+                popup.classList.remove("open-popup");
+
+            }
+
+        </script>
+
+
+    </body>
+
+</html>
