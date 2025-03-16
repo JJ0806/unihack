@@ -1,16 +1,175 @@
-{% extends 'base_content.html' %}
-{% block content %}
-<div class="container">
-  <div class="row">
-    <div class="col-12">
-      <h1>Create Task</h1>
-        <form action="{% url 'create_task' %}" method="post">
-        {% csrf_token %}
-        {% include 'partials/bootstrap_form.html' with form=form %}
-        <input type="hidden" name="next" value="{{ request.GET.next }}">
-        <input type="submit" value="Create task" title="Create new task" class="btn btn-primary">
-      </form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checklist with Deadlines</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-image: url('https://as2.ftcdn.net/jpg/02/79/17/55/1000_F_279175585_uSGYo86acp7dMpqTvOJONi1riEOD77Sr.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+            padding-top: 20px;
+        }
+        h2 {
+            font-size: 36px;
+            font-weight: bold;
+            color: red;
+            background-color: #ffdde1;
+            padding: 15px;
+            border-radius: 15px;
+            display: inline-block;
+        }
+        .checklist-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 400px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            width: 100%;
+        }
+        li {
+            margin: 5px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #ffb6c1;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .completed {
+            text-decoration: line-through;
+            color: gray;
+        }
+        button {
+            margin-left: 10px;
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2>Checklist</h2>
+    <div class="checklist-container">
+        <input type="text" id="subjectInput" placeholder="Add a subject...">
+        <button onclick="addSubject()">Add Subject</button>
+        <select id="subjectSelect">
+            <option value="">Select Subject</option>
+        </select>
+        <input type="text" id="taskInput" placeholder="Add a task...">
+        <input type="date" id="deadlineInput">
+        <input type="time" id="timeInput">
+        <button onclick="addTask()">Add Task</button>
+        <ul id="taskList"></ul>
     </div>
-  </div>
-</div>
-{% endblock %}
+
+    <script>
+        function addSubject() {
+            let subjectInput = document.getElementById("subjectInput");
+            let subjectText = subjectInput.value.trim();
+            
+            if (!subjectText) {
+                alert("Please enter a subject.");
+                return;
+            }
+
+            let subjectSelect = document.getElementById("subjectSelect");
+
+            // Check if subject already exists
+            for (let option of subjectSelect.options) {
+                if (option.value === subjectText) {
+                    alert("This subject already exists.");
+                    return;
+                }
+            }
+
+            let newOption = document.createElement("option");
+            newOption.value = subjectText;
+            newOption.textContent = subjectText;
+            subjectSelect.appendChild(newOption);
+
+            subjectInput.value = ""; // Clear input field
+        }
+        
+        function addTask() {
+            let subjectSelect = document.getElementById("subjectSelect");
+            let taskInput = document.getElementById("taskInput");
+            let deadlineInput = document.getElementById("deadlineInput");
+            let timeInput = document.getElementById("timeInput");
+
+            let subject = subjectSelect.value;
+            let taskText = taskInput.value.trim();
+            let deadlineDate = deadlineInput.value;
+            let timeText = timeInput.value || "23:59";  // Default to end of the day
+
+            if (!subject || !taskText || !deadlineDate) {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            let deadlineDateTime = new Date(`${deadlineDate}T${timeText}`);
+            if (isNaN(deadlineDateTime.getTime())) {
+                alert("Invalid date/time format.");
+                return;
+            }
+
+            let taskList = document.getElementById("taskList");
+
+            let li = document.createElement("li");
+            li.dataset.deadline = deadlineDateTime.getTime(); // Store timestamp for sorting
+            
+            let checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.onchange = function() {
+                li.classList.toggle("completed", this.checked);
+            };
+
+            let taskSpan = document.createElement("span");
+            taskSpan.textContent = `[${subject}] ${taskText} (Due: ${deadlineDate} ${timeText})`;
+            
+            let removeBtn = document.createElement("button");
+            removeBtn.textContent = "Remove";
+            removeBtn.onclick = function() {
+                li.remove();
+            };
+
+            li.appendChild(checkbox);
+            li.appendChild(taskSpan);
+            li.appendChild(removeBtn);
+
+            insertSorted(li, taskList);
+
+            // Reset input fields
+            taskInput.value = "";
+            deadlineInput.value = "";
+            timeInput.value = "";
+        }
+
+        function insertSorted(newTask, taskList) {
+            let tasks = Array.from(taskList.children);
+            tasks.push(newTask);
+
+            // Sort by deadline (earliest first)
+            tasks.sort((a, b) => a.dataset.deadline - b.dataset.deadline);
+
+            // Clear and re-add tasks in sorted order
+            taskList.innerHTML = "";
+            tasks.forEach(task => taskList.appendChild(task));
+        }
+    </script>
+</body>
+</html>
