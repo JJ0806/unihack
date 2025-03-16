@@ -25,7 +25,246 @@
         <input type="number" id="seconds" placeholder="SS" min="0" max="59">
         <button id="start">Start Timer</button>
     </div>  
-    <script defer src="{% static 'timer.js' %}"></script>
+    <script>
+        const semicircles = document.querySelectorAll('.semicircle');
+        const timer = document.querySelector('.timer')
+
+        let timerLoop;
+
+        document.getElementById("start").addEventListener("click", function() {
+            const hr = parseInt(document.getElementById("hours").value) || 0;
+            const min = parseInt(document.getElementById("minutes").value) || 0;
+            const sec = parseInt(document.getElementById("seconds").value) || 0;
+
+            clearInterval(timerLoop);
+            resetTimer();
+            startCountdown(hr, min, sec);
+        });
+
+        function startCountdown(hr, min, sec) {
+
+            const hours = hr * 1000 * 60 * 60;
+            const minutes = min * 1000 * 60;
+            const seconds = sec * 1000;
+            
+            const setTime = hours + minutes + seconds;
+            const startTime = Date.now();
+            const futureTime = startTime + setTime;2
+            
+            timerLoop = setInterval(countdownTimer, 1000);
+            countdownTimer();
+
+            function countdownTimer() {
+                const currentTime = Date.now();
+                const remainingTime = futureTime - currentTime;
+                const angle = (remainingTime / setTime) * 360;
+
+                if (angle > 180) {
+                    semicircles[2].style.display = "none";
+                    semicircles[0].style.transform = "rotate(180deg)";
+                    semicircles[1].style.transform = `rotate(${angle}deg)`;
+                } else {
+                    semicircles[2].style.display = "block";
+                    semicircles[0].style.transform = `rotate(${angle}deg)`;
+                    semicircles[1].style.transform = `rotate(${angle}deg)`;
+                }
+
+                const hrs = String(Math.floor((remainingTime / (1000 * 60 * 60)) % 24)).padStart(2, "0");
+                const mins = String(Math.floor((remainingTime / (1000 * 60)) % 60)).padStart(2, "0");
+                const secs = String(Math.floor((remainingTime / 1000) % 60)).padStart(2, "0");
+
+                timer.innerHTML = `
+                <div>${hrs}</div> 
+                <div class="colon">:</div> 
+                <div>${mins}</div> 
+                <div class="colon">:</div> 
+                <div>${secs}</div>
+                `;
+
+                if (remainingTime <= 1000) {
+                    semicircles[0].style.backgroundColor = "red";
+                    semicircles[1].style.backgroundColor = "red";
+                    timer.style.color = "red";
+                }
+
+                if (remainingTime < 0) {
+                    clearInterval(timerLoop);
+                    resetTimer();
+                }
+            }
+        }
+
+        function resetTimer() {
+
+            semicircles[0].style.display = "block";
+            semicircles[1].style.display = "block";
+            semicircles[2].style.display = "block";
+
+            semicircles[0].style.backgroundColor = "rgb(223, 39, 39)";
+            semicircles[1].style.backgroundColor = "rgb(223, 39, 39)";
+
+            semicircles[0].style.transform = "rotate(0deg)";
+            semicircles[1].style.transform = "rotate(0deg)";
+
+            timer.innerHTML = `
+            <div>00</div> 
+            <div class="colon">:</div> 
+            <div>00</div> <div class="colon">:</div> 
+            <div>00</div>
+            `;
+            
+            timer.style.color = "black";
+        }
+    </script>
+    <style>
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    
+        .main-container {
+            width: 100%;
+            height: 100vh;
+            background-color: white;
+        }
+    
+        .circle-container {
+            width: 400px;
+            height: 400px;
+            background-color: white;
+            border-radius: 50%;
+            position: absolute;
+            z-index: 1;
+            overflow: hidden;
+        }
+    
+        .semicircle {
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            transform-origin: right center;
+        }
+    
+        .semicircle:nth-child(1) {
+            background-color: rgb(223, 39, 39);
+            z-index: 2;
+        }
+    
+        .semicircle:nth-child(2) {
+            background-color: rgb(223, 39, 39);
+            z-index: 3;
+        }
+    
+        .semicircle:nth-child(3) {
+            background-color: rgb(255, 255, 255);
+            z-index: 4;
+        }
+    
+        .outermost-circle {
+            position: absolute;
+            width: 390px;
+            height: 390px;
+            background-color: rgb(175, 59, 59);
+            border-radius: 50%;
+            z-index: 5;
+        }
+    
+        .timer-container {
+            position: absolute;  /* Ensures it’s placed properly */
+            width: 100%;
+            height: auto;
+            z-index: 6;
+        }
+    
+    
+        .timer {
+            font-size: 70px;
+            font-weight: 700;
+            color: black;
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            text-align: center;
+        }
+    
+        .timer center {
+            font-size: 70px;
+            font-weight: 700;
+            color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;  
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10; 
+            
+        }
+    
+        .timer .colon {
+            background-color: transparent;
+            width: 10px;
+            margin-left: 0;
+            margin-right: 0;
+            padding-bottom: 15px;
+        }
+    
+        .input-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+    
+        .input-container input {
+            width: 50px;
+            height: 40px;
+            font-size: 20px;
+            text-align: center;
+        }
+    
+    
+        .time-input-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+    
+        .time-input-container input {
+            width: 65px;
+            height: 40px;
+            font-size: 20px;
+            text-align: center;
+            border-radius: 200px;
+            border-style: dashed;
+        }
+    
+        #start {
+            padding: 10px 15px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 120px;
+            background-color: rgb(40, 186, 50);
+            border-style: none;
+        }
+    
+    
+        #startButton {
+            padding: 10px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+    </style>    
 </body>
 </html>
 
