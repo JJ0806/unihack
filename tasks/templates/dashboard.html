@@ -8,14 +8,14 @@
         </div>
     </div>
 
-    <!-- Implement this -->
     <!-- New Task Button -->
     <div class="row mb-4">
-        <div class="col-12">
-                <i class="fas fa-plus"></i> New Task
-            </a>
-        </div>
-    </div>
+      <div class="col-12">
+          <a href="{% url 'create_task' %}" class="btn btn-primary">
+              <i class="fas fa-plus"></i> New Task
+          </a>
+      </div>
+  </div>
 
     <!-- Task Columns -->
     <div class="row">
@@ -28,7 +28,7 @@
                 <div class="card-body">
                     {% for task in tasks %}
                         {% if task.status == 'pending' %}
-                          <!-- Implement the show of card -->
+                          <p>{{ task.title }}</p>
                         {% endif %}
                     {% endfor %}
                 </div>
@@ -44,7 +44,7 @@
                 <div class="card-body">
                     {% for task in tasks %}
                         {% if task.status == 'in_progress' %}
-                          <!-- Implement the show of card -->
+                          <p>{{ task.title }}</p>
                         {% endif %}
                     {% endfor %}
                 </div>
@@ -60,7 +60,7 @@
                 <div class="card-body">
                     {% for task in tasks %}
                         {% if task.status == 'completed' %}
-                          <!-- Implement the show of card -->
+                          <p>{{ task.title }}</p>
                         {% endif %}
                     {% endfor %}
                 </div>
