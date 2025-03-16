@@ -1,4 +1,4 @@
-<!-- This code was written following the video "JavaScript Project: Countdown Timer with Progress Indicator" by EFtechLab (link: https://www.youtube.com/watch?v=uHVPAcaW1VQ). The author of this code if EFtechLab. Modified by members of our student team. -->
+<!-- This code was based on the following video "JavaScript Project: Countdown Timer with Progress Indicator" by EFtechLab (link: https://www.youtube.com/watch?v=uHVPAcaW1VQ). The author of this code if EFtechLab. Modified by SwordGPT2.0. !-->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -15,12 +15,17 @@
             <div class = "semicircle"></div>
             <div class = "semicircle"></div>
             <div class="outermost-circle"></div>
-        </div>
+            <div class = "timer-container center">
+                <div class = "timer center"></div>
+            </div>
+        </div>           
     </div>
-
-    <div class = "timer-container center">
-        <div class = "timer center"></div>
-    </div>
+    <div class="time-input-container">
+        <input type="number" id="hours" placeholder="HH" min="0">
+        <input type="number" id="minutes" placeholder="MM" min="0" max="59">
+        <input type="number" id="seconds" placeholder="SS" min="0" max="59">
+        <button id="start">Start Timer</button>
+    </div>  
     
     <script src="timer.js"></script>
 </body>
