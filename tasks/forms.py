@@ -2,7 +2,7 @@
 from django import forms
 from django.contrib.auth import authenticate
 from django.core.validators import RegexValidator
-from .models import User, Task
+from .models import User, Assessment
 
 class LogInForm(forms.Form):
     """Form enabling registered users to log in."""
@@ -109,13 +109,13 @@ class SignUpForm(NewPasswordMixin, forms.ModelForm):
         )
         return user
     
-class CreateTaskForm(forms.ModelForm):
+class CreateAssessmentForm(forms.ModelForm):
     """Form enabling users to create a task."""
 
     class Meta:
         """Form options."""
 
-        model = Task
+        model = Assessment
         fields = ['title', 'description', 'due_date', 'status']
         widgets = {'description': forms.Textarea(), 
                    'due_date': forms.DateInput(attrs={'type': 'date'})}
@@ -124,7 +124,7 @@ class CreateTaskForm(forms.ModelForm):
         """Create a new Task."""
 
         super().save(commit=False)
-        task = Task(
+        task = Assessment(
             title=self.cleaned_data.get('title'),
             description=self.cleaned_data.get('description'),
             due_date=self.cleaned_data.get('due_date'),

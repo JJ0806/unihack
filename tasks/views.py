@@ -8,9 +8,9 @@ from django.shortcuts import redirect, render
 from django.views import View
 from django.views.generic.edit import FormView, UpdateView
 from django.urls import reverse, reverse_lazy
-from tasks.forms import LogInForm, PasswordForm, UserForm, SignUpForm, CreateTaskForm
+from tasks.forms import LogInForm, PasswordForm, UserForm, SignUpForm, CreateAssessmentForm
 from tasks.helpers import login_prohibited
-from tasks.models import Task
+from tasks.models import Assessment
 
 
 @login_required
@@ -18,7 +18,7 @@ def dashboard(request):
     """Display the current user's dashboard."""
 
     current_user = request.user
-    tasks = Task.objects.filter(assigned_to=current_user)
+    tasks = Assessment.objects.filter(assigned_to=current_user)
     incomplete_tasks = tasks.filter(status__in=['pending', 'in_progress'])
 
     if incomplete_tasks.exists():
@@ -159,10 +159,10 @@ class SignUpView(LoginProhibitedMixin, FormView):
     def get_success_url(self):
         return reverse(settings.REDIRECT_URL_WHEN_LOGGED_IN)
 
-class CreateTaskView(LoginRequiredMixin, FormView):
-    model = Task
-    form_class = CreateTaskForm
-    template_name = 'create_task.html'
+class CreateAssessmentView(LoginRequiredMixin, FormView):
+    model = Assessment
+    form_class = CreateAssessmentForm
+    template_name = 'create_assessment.html'
     
     def form_valid(self, form):
         task = form.save(commit=False)
@@ -171,5 +171,11 @@ class CreateTaskView(LoginRequiredMixin, FormView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        messages.add_message(self.request, messages.SUCCESS, "Task created!")
+        messages.add_message(self.request, messages.SUCCESS, "Assessment created!")
         return reverse('dashboard')
+    
+class CreateTaskView(LoginRequiredMixin, View):
+    template_name = 'create_task.html'
+
+    def get(self, request):
+        return render(request, self.template_name)

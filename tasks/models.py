@@ -42,7 +42,7 @@ class User(AbstractUser):
         return self.gravatar(size=60)
     
 
-class Task(models.Model):
+class Assessment(models.Model):
     STATUS_CHOICES = [
         ('pending', 'Pending'),
         ('in_progress', 'In Progress'),
