@@ -1,10 +1,71 @@
 {% extends 'base_content.html' %}
+{% block title %}Dashboard - Task Manager{% endblock %}
 {% block content %}
 <div class="container">
-  <div class="row">
-    <div class="col-12">
-      <h1>Welcome to your dashboard {{ user.username }}</h1>
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1>Welcome to your dashboard, {{ user.username }}</h1>
+        </div>
     </div>
+
+    <!-- New Task Button -->
+    <div class="row mb-4">
+      <div class="col-12">
+          <a href="{% url 'create_task' %}" class="btn btn-primary">
+              <i class="fas fa-plus"></i> New Task
+          </a>
+      </div>
   </div>
+
+    <!-- Task Columns -->
+    <div class="row">
+        <!-- Pending Tasks -->
+        <div class="col-md-4 mb-4">
+            <div class="card bg-pending">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">Pending</h5>
+                </div>
+                <div class="card-body">
+                    {% for task in tasks %}
+                        {% if task.status == 'pending' %}
+                          <p>{{ task.title }}</p>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- In Progress Tasks -->
+        <div class="col-md-4 mb-4">
+            <div class="card bg-in-progress">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">In Progress</h5>
+                </div>
+                <div class="card-body">
+                    {% for task in tasks %}
+                        {% if task.status == 'in_progress' %}
+                          <p>{{ task.title }}</p>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Completed Tasks -->
+        <div class="col-md-4 mb-4">
+            <div class="card bg-completed">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">Completed</h5>
+                </div>
+                <div class="card-body">
+                    {% for task in tasks %}
+                        {% if task.status == 'completed' %}
+                          <p>{{ task.title }}</p>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
