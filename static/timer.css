@@ -1,0 +1,164 @@
+/* This code was based on the following video "JavaScript Project: Countdown Timer with Progress Indicator" by EFtechLab (link: https://www.youtube.com/watch?v=uHVPAcaW1VQ). The author of this code if EFtechLab. Modified by SwordGPT2.0. */
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-family: "Roboto", sans-serif;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-container {
+    width: 100%;
+    height: 100vh;
+    background-color: white;
+}
+
+.circle-container {
+    width: 400px;
+    height: 400px;
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.semicircle {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    transform-origin: right center;
+}
+
+.semicircle:nth-child(1) {
+    background-color: rgb(223, 39, 39);
+    z-index: 2;
+}
+
+.semicircle:nth-child(2) {
+    background-color: rgb(223, 39, 39);
+    z-index: 3;
+}
+
+.semicircle:nth-child(3) {
+    background-color: rgb(255, 255, 255);
+    z-index: 4;
+}
+
+.outermost-circle {
+    position: absolute;
+    width: 390px;
+    height: 390px;
+    background-color: rgb(175, 59, 59);
+    border-radius: 50%;
+    z-index: 5;
+}
+
+.timer-container {
+    position: absolute;  /* Ensures it’s placed properly */
+    width: 100%;
+    height: auto;
+    z-index: 6;
+}
+
+
+.timer {
+    font-size: 70px;
+    font-weight: 700;
+    color: black;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    text-align: center;
+}
+
+
+
+.timer center {
+    font-size: 70px;
+    font-weight: 700;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;  
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10; 
+    
+}
+
+.timer .colon {
+    background-color: transparent;
+    width: 10px;
+    margin-left: 0;
+    margin-right: 0;
+    padding-bottom: 15px;
+}
+
+.input-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.input-container input {
+    width: 50px;
+    height: 40px;
+    font-size: 20px;
+    text-align: center;
+}
+
+
+.time-input-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.time-input-container input {
+    width: 65px;
+    height: 40px;
+    font-size: 20px;
+    text-align: center;
+    border-radius: 200px;
+    border-style: dashed;
+}
+
+#start {
+    padding: 10px 15px;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 120px;
+    background-color: rgb(40, 186, 50);
+    border-style: none;
+}
+
+
+#startButton {
+    padding: 10px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
